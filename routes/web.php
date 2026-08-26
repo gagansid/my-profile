@@ -1,6 +1,18 @@
 <?php
 
 use App\Http\Controllers\AboutController;
+use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
+use App\Http\Controllers\Admin\EducationController as AdminEducationController;
+use App\Http\Controllers\Admin\ExperienceController as AdminExperienceController;
+use App\Http\Controllers\Admin\MessageController as AdminMessageController;
+use App\Http\Controllers\Admin\PostController as AdminPostController;
+use App\Http\Controllers\Admin\ProfileInfoController as AdminProfileInfoController;
+use App\Http\Controllers\Admin\ProjectController as AdminProjectController;
+use App\Http\Controllers\Admin\SiteSettingController as AdminSiteSettingController;
+use App\Http\Controllers\Admin\SkillController as AdminSkillController;
+use App\Http\Controllers\Admin\SocialLinkController as AdminSocialLinkController;
+use App\Http\Controllers\Admin\TagController as AdminTagController;
+use App\Http\Controllers\Admin\TechnologyController as AdminTechnologyController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PostController;
@@ -74,6 +86,29 @@ Route::domain(env('ADMIN_DOMAIN', 'admin.my-profile.test'))
             Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
             Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
             Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+            Route::get('/profile-info', [AdminProfileInfoController::class, 'edit'])->name('admin.profile-info.edit');
+            Route::put('/profile-info', [AdminProfileInfoController::class, 'update'])->name('admin.profile-info.update');
+
+            Route::resource('experiences', AdminExperienceController::class)->except('show')->names('admin.experiences');
+            Route::resource('educations', AdminEducationController::class)->except('show')->names('admin.educations');
+            Route::resource('skills', AdminSkillController::class)->except('show')->names('admin.skills');
+            Route::resource('technologies', AdminTechnologyController::class)->except('show')->names('admin.technologies');
+            Route::resource('categories', AdminCategoryController::class)->except('show')->names('admin.categories');
+            Route::resource('tags', AdminTagController::class)->except('show')->names('admin.tags');
+            Route::resource('projects', AdminProjectController::class)->except('show')->names('admin.projects');
+            Route::resource('posts', AdminPostController::class)->except('show')->names('admin.posts');
+            Route::resource('social-links', AdminSocialLinkController::class)
+                ->parameters(['social-links' => 'socialLink'])
+                ->except('show')
+                ->names('admin.social-links');
+
+            Route::get('/site-settings', [AdminSiteSettingController::class, 'edit'])->name('admin.site-settings.edit');
+            Route::put('/site-settings', [AdminSiteSettingController::class, 'update'])->name('admin.site-settings.update');
+
+            Route::get('/messages', [AdminMessageController::class, 'index'])->name('admin.messages.index');
+            Route::get('/messages/{message}', [AdminMessageController::class, 'show'])->name('admin.messages.show');
+            Route::delete('/messages/{message}', [AdminMessageController::class, 'destroy'])->name('admin.messages.destroy');
         });
 
         require __DIR__ . '/auth.php';
