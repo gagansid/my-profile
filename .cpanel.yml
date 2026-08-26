@@ -1,0 +1,23 @@
+---
+deployment:
+  tasks:
+    # 1. Salin isi repo (kecuali dotfile seperti .git) ke folder aplikasi di luar public_html.
+    - export DEPLOYPATH=/home/gagc8689/repositories/my-profile-app/
+    - export DOCROOT=/home/gagc8689/public_html/
+    - /bin/cp -R * $DEPLOYPATH
+
+    # 2. Install dependency PHP (production only) & JS, lalu build asset Vite.
+    - cd $DEPLOYPATH && composer install --no-dev --optimize-autoloader --no-interaction
+    - cd $DEPLOYPATH && npm ci && npm run build
+
+    # 3. Migrasi database & cache config/route/view.
+    - cd $DEPLOYPATH && php artisan migrate --force
+    - cd $DEPLOYPATH && php artisan config:cache
+    - cd $DEPLOYPATH && php artisan route:cache
+    - cd $DEPLOYPATH && php artisan view:cache
+    - cd $DEPLOYPATH && (php artisan storage:link || true)
+
+    # 4. Publish folder public/ ke document root (public_html), lalu pakai
+    #    index.cpanel.php (path absolut) sebagai index.php di document root.
+    - /bin/cp -R $DEPLOYPATH/public/. $DOCROOT
+    - /bin/cp $DEPLOYPATH/public/index.cpanel.php $DOCROOT/index.php
