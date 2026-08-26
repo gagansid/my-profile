@@ -1,0 +1,59 @@
+/*=============== BUTTONS ===============*/
+.button {
+    display: inline-flex;
+    align-items: center;
+    column-gap: .5rem;
+    background-color: var(--first-color);
+    color: #fff;
+    padding: 1.15rem 1.5rem;
+    border: 1.5px solid transparent;
+    border-radius: .5rem;
+    outline: none;
+    appearance: none;
+    cursor: pointer;
+    font-family: var(--body-font);
+    font-size: var(--small-font-size);
+    font-weight: 500;
+    line-height: 1.5;
+    transition: .3s;
+    box-shadow: 0 8px 24px hsla(var(--hue), var(--sat), var(--lig), .25);
+
+    & i {
+        font-size: 1.25rem;
+    }
+
+    &:hover {
+        background-color: var(--first-color-alt);
+    }
+
+    &__small {
+        padding: .5rem 1rem;
+        box-shadow: none;
+    }
+
+    &__gray {
+        background-color: var(--body-color);
+        color: var(--title-color);
+        border-color: var(--text-color-light);
+        box-shadow: none;
+
+        &:hover {
+            background-color: var(--text-color-lighten);
+            border-color: var(--text-color);
+        }
+    }
+
+    &__danger {
+        background-color: hsl(0, 70%, 55%);
+
+        &:hover {
+            background-color: hsl(0, 70%, 45%);
+        }
+    }
+
+    &:disabled {
+        opacity: .6;
+        cursor: not-allowed;
+        pointer-events: none;
+    }
+}
