@@ -30,6 +30,12 @@ class SiteSetting extends Model
 
     public static function current(): self
     {
-        return static::query()->firstOrCreate(['id' => 1]);
+        return static::query()->firstOrCreate(['id' => 1], [
+            'is_site_public' => true,
+            'show_about' => true,
+            'show_projects' => true,
+            'show_blog' => true,
+            'show_contact' => true,
+        ]);
     }
 }
