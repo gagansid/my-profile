@@ -72,7 +72,7 @@ class TagController extends Controller
         $slug = $base;
         $i = 2;
 
-        while (Tag::query()->where('slug', $slug)->when($ignore, fn($q) => $q->whereKeyNot($ignore->id))->exists()) {
+        while (Tag::query()->where('slug', $slug)->when($ignore, fn ($q) => $q->whereKeyNot($ignore->id))->exists()) {
             $slug = "{$base}-{$i}";
             $i++;
         }

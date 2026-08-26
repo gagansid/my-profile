@@ -10,9 +10,7 @@ use Illuminate\Support\Facades\Storage;
 
 class ProfileInfoController extends Controller
 {
-    public function __construct(private ImageUploadService $imageUploadService)
-    {
-    }
+    public function __construct(private ImageUploadService $imageUploadService) {}
 
     public function edit()
     {

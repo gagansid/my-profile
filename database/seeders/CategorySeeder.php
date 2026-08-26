@@ -24,10 +24,10 @@ class CategorySeeder extends Seeder
 
         foreach ($categories as $category) {
             Category::updateOrCreate(
-                ['slug' => Str::slug($category['name']) . '-' . $category['type']],
+                ['slug' => Str::slug($category['name']).'-'.$category['type']],
                 [
                     'name' => $category['name'],
-                    'slug' => Str::slug($category['name']) . '-' . $category['type'],
+                    'slug' => Str::slug($category['name']).'-'.$category['type'],
                     'type' => $category['type'],
                 ]
             );

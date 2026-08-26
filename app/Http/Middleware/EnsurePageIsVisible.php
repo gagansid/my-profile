@@ -18,7 +18,7 @@ class EnsurePageIsVisible
     {
         $settings = SiteSetting::current();
 
-        $column = 'show_' . $page;
+        $column = 'show_'.$page;
 
         if (! $settings->{$column}) {
             abort(404);

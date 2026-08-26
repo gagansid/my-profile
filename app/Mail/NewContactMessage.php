@@ -2,8 +2,8 @@
 
 namespace App\Mail;
 
+use App\Models\Message;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Attachment;
 use Illuminate\Mail\Mailables\Content;
@@ -17,7 +17,7 @@ class NewContactMessage extends Mailable
     /**
      * Create a new message instance.
      */
-    public function __construct(public \App\Models\Message $contactMessage)
+    public function __construct(public Message $contactMessage)
     {
         //
     }
@@ -28,7 +28,7 @@ class NewContactMessage extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'New Contact Message from ' . $this->contactMessage->fullname,
+            subject: 'New Contact Message from '.$this->contactMessage->fullname,
         );
     }
 

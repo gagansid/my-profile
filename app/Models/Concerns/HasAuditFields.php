@@ -2,6 +2,7 @@
 
 namespace App\Models\Concerns;
 
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
 trait HasAuditFields
@@ -24,11 +25,11 @@ trait HasAuditFields
 
     public function createdBy()
     {
-        return $this->belongsTo(\App\Models\User::class, 'created_by');
+        return $this->belongsTo(User::class, 'created_by');
     }
 
     public function updatedBy()
     {
-        return $this->belongsTo(\App\Models\User::class, 'updated_by');
+        return $this->belongsTo(User::class, 'updated_by');
     }
 }

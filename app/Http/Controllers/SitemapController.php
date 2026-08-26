@@ -18,11 +18,11 @@ class SitemapController extends Controller
         ]);
 
         $urls = $urls
-            ->concat(Project::query()->published()->get()->map(fn(Project $project) => [
+            ->concat(Project::query()->published()->get()->map(fn (Project $project) => [
                 'loc' => route('projects.show', $project->slug),
                 'lastmod' => $project->updated_at->toAtomString(),
             ]))
-            ->concat(Post::query()->published()->get()->map(fn(Post $post) => [
+            ->concat(Post::query()->published()->get()->map(fn (Post $post) => [
                 'loc' => route('blog.show', $post->slug),
                 'lastmod' => $post->updated_at->toAtomString(),
             ]));

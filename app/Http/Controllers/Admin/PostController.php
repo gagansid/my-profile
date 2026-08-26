@@ -13,9 +13,7 @@ use Illuminate\Support\Str;
 
 class PostController extends Controller
 {
-    public function __construct(private ImageUploadService $imageUploadService)
-    {
-    }
+    public function __construct(private ImageUploadService $imageUploadService) {}
 
     public function index()
     {
@@ -116,7 +114,7 @@ class PostController extends Controller
         $slug = $base;
         $i = 2;
 
-        while (Post::query()->where('slug', $slug)->when($ignore, fn($q) => $q->whereKeyNot($ignore->id))->exists()) {
+        while (Post::query()->where('slug', $slug)->when($ignore, fn ($q) => $q->whereKeyNot($ignore->id))->exists()) {
             $slug = "{$base}-{$i}";
             $i++;
         }
@@ -131,7 +129,7 @@ class PostController extends Controller
         }
 
         return collect(explode(',', $tags))
-            ->map(fn($name) => trim($name))
+            ->map(fn ($name) => trim($name))
             ->filter()
             ->map(function ($name) {
                 return Tag::query()->firstOrCreate(

@@ -74,7 +74,7 @@ class CategoryController extends Controller
         $slug = $base;
         $i = 2;
 
-        while (Category::query()->where('slug', $slug)->when($ignore, fn($q) => $q->whereKeyNot($ignore->id))->exists()) {
+        while (Category::query()->where('slug', $slug)->when($ignore, fn ($q) => $q->whereKeyNot($ignore->id))->exists()) {
             $slug = "{$base}-{$i}";
             $i++;
         }

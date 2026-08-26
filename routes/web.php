@@ -111,5 +111,5 @@ Route::domain(env('ADMIN_DOMAIN', 'admin.my-profile.test'))
             Route::delete('/messages/{message}', [AdminMessageController::class, 'destroy'])->name('admin.messages.destroy');
         });
 
-        require __DIR__ . '/auth.php';
+        require __DIR__.'/auth.php';
     });

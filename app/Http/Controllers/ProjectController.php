@@ -14,11 +14,11 @@ class ProjectController extends Controller
         $query = Project::query()->published()->with(['category', 'technologies', 'tags']);
 
         if ($request->filled('category')) {
-            $query->whereHas('category', fn($q) => $q->where('slug', $request->string('category')));
+            $query->whereHas('category', fn ($q) => $q->where('slug', $request->string('category')));
         }
 
         if ($request->filled('tag')) {
-            $query->whereHas('tags', fn($q) => $q->where('slug', $request->string('tag')));
+            $query->whereHas('tags', fn ($q) => $q->where('slug', $request->string('tag')));
         }
 
         $projects = $query->orderBy('order')->paginate(9)->withQueryString();

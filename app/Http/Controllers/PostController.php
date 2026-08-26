@@ -15,11 +15,11 @@ class PostController extends Controller
         $query = Post::query()->published()->with(['category', 'tags']);
 
         if ($request->filled('category')) {
-            $query->whereHas('category', fn($q) => $q->where('slug', $request->string('category')));
+            $query->whereHas('category', fn ($q) => $q->where('slug', $request->string('category')));
         }
 
         if ($request->filled('tag')) {
-            $query->whereHas('tags', fn($q) => $q->where('slug', $request->string('tag')));
+            $query->whereHas('tags', fn ($q) => $q->where('slug', $request->string('tag')));
         }
 
         $posts = $query->latest('published_at')->paginate(6)->withQueryString();
@@ -37,7 +37,11 @@ class PostController extends Controller
             ->where('slug', $slug)
             ->firstOrFail();
 
-        $contentHtml = (new CommonMarkConverter())->convert($post->content ?? '')->getContent();
+        $converter = new CommonMarkConverter([
+            'html_input' => 'escape',
+            'allow_unsafe_links' => false,
+        ]);
+        $contentHtml = $converter->convert($post->content ?? '')->getContent();
 
         return view('blog.show', compact('post', 'contentHtml'));
     }
