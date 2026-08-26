@@ -3,14 +3,16 @@
         <h2 class="admin-heading" style="margin-bottom: 0;">Skills</h2>
     </x-slot>
 
-    <div class="admin-card">
-        <div class="admin-toolbar mb-2">
-            <p class="admin-hint">Daftar keahlian yang tampil di halaman About.</p>
-            <a href="{{ route('admin.skills.create') }}" class="button button__small">Tambah</a>
-        </div>
+    <x-admin.card>
+        <x-slot:header>
+            <div class="admin-toolbar">
+                <p class="admin-hint">Daftar keahlian yang tampil di halaman About.</p>
+                <a href="{{ route('admin.skills.create') }}" class="button button__small">Tambah</a>
+            </div>
+        </x-slot:header>
 
         @if (session('status'))
-            <p class="admin-alert admin-alert--success mb-2">Tersimpan.</p>
+            <p class="admin-alert admin-alert--success">Tersimpan.</p>
         @endif
 
         @if ($skills->isEmpty())
@@ -47,7 +49,12 @@
                     </tbody>
                 </table>
             </div>
-            {{ $skills->links() }}
         @endif
-    </div>
+
+        @if ($skills->isNotEmpty())
+            <x-slot:footer>
+                {{ $skills->links() }}
+            </x-slot:footer>
+        @endif
+    </x-admin.card>
 </x-app-layout>

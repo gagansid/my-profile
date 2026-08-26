@@ -4,14 +4,12 @@
         <h2 class="admin-heading" style="margin-bottom: 0;">Tambah Post</h2>
     </x-slot>
 
-    <div class="admin-card">
-        <form method="POST" action="{{ route('admin.posts.store') }}" class="admin-form" enctype="multipart/form-data">
-            @csrf
-            @include('admin.posts._form')
-            <div class="admin-form__actions">
-                <x-primary-button>Simpan</x-primary-button>
-                <a href="{{ route('admin.posts.index') }}" class="admin-hint">Batal</a>
-            </div>
-        </form>
-    </div>
+    <x-admin.card :form-action="route('admin.posts.store')" form-enctype="multipart/form-data">
+        @include('admin.posts._form')
+
+        <x-slot:footer>
+            <a href="{{ route('admin.posts.index') }}" class="button button__gray button__small">Batal</a>
+            <x-primary-button>Simpan</x-primary-button>
+        </x-slot:footer>
+    </x-admin.card>
 </x-app-layout>

@@ -6,7 +6,15 @@
     background-color: var(--first-color);
     color: #fff;
     padding: 1.15rem 1.5rem;
+    border: 1.5px solid transparent;
     border-radius: .5rem;
+    outline: none;
+    appearance: none;
+    cursor: pointer;
+    font-family: var(--body-font);
+    font-size: var(--small-font-size);
+    font-weight: 500;
+    line-height: 1.5;
     transition: .3s;
     box-shadow: 0 8px 24px hsla(var(--hue), var(--sat), var(--lig), .25);
 
@@ -19,16 +27,19 @@
     }
 
     &__small {
-        padding: .75rem;
+        padding: .5rem 1rem;
         box-shadow: none;
     }
 
     &__gray {
-        background-color: var(--text-color-lighten);
+        background-color: var(--body-color);
         color: var(--title-color);
+        border-color: var(--text-color-light);
+        box-shadow: none;
 
         &:hover {
-            background-color: var(--text-color-light);
+            background-color: var(--text-color-lighten);
+            border-color: var(--text-color);
         }
     }
 

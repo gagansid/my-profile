@@ -3,15 +3,12 @@
         <h2 class="admin-heading" style="margin-bottom: 0;">Edit Project</h2>
     </x-slot>
 
-    <div class="admin-card">
-        <form method="POST" action="{{ route('admin.projects.update', $project) }}" class="admin-form" enctype="multipart/form-data">
-            @csrf
-            @method('PUT')
-            @include('admin.projects._form')
-            <div class="admin-form__actions">
-                <x-primary-button>Simpan</x-primary-button>
-                <a href="{{ route('admin.projects.index') }}" class="admin-hint">Batal</a>
-            </div>
-        </form>
-    </div>
+    <x-admin.card :form-action="route('admin.projects.update', $project)" form-method="PUT" form-enctype="multipart/form-data">
+        @include('admin.projects._form')
+
+        <x-slot:footer>
+            <a href="{{ route('admin.projects.index') }}" class="button button__gray button__small">Batal</a>
+            <x-primary-button>Simpan</x-primary-button>
+        </x-slot:footer>
+    </x-admin.card>
 </x-app-layout>

@@ -26,6 +26,10 @@ class ContactController extends Controller
             Mail::to($to)->send(new NewContactMessage($message));
         }
 
+        if ($request->wantsJson()) {
+            return response()->json(['status' => 'contact-sent']);
+        }
+
         return back()->with('status', 'contact-sent');
     }
 }

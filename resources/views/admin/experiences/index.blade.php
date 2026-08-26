@@ -3,14 +3,16 @@
         <h2 class="admin-heading" style="margin-bottom: 0;">Experience</h2>
     </x-slot>
 
-    <div class="admin-card">
-        <div class="admin-toolbar mb-2">
-            <p class="admin-hint">Riwayat pekerjaan yang tampil di halaman About.</p>
-            <a href="{{ route('admin.experiences.create') }}" class="button button__small">Tambah</a>
-        </div>
+    <x-admin.card>
+        <x-slot:header>
+            <div class="admin-toolbar">
+                <p class="admin-hint">Riwayat pekerjaan yang tampil di halaman About.</p>
+                <a href="{{ route('admin.experiences.create') }}" class="button button__small">Tambah</a>
+            </div>
+        </x-slot:header>
 
         @if (session('status') === 'experience-created' || session('status') === 'experience-updated' || session('status') === 'experience-deleted')
-            <p class="admin-alert admin-alert--success mb-2">Tersimpan.</p>
+            <p class="admin-alert admin-alert--success">Tersimpan.</p>
         @endif
 
         @if ($experiences->isEmpty())
@@ -47,7 +49,12 @@
                     </tbody>
                 </table>
             </div>
-            {{ $experiences->links() }}
         @endif
-    </div>
+
+        @if ($experiences->isNotEmpty())
+            <x-slot:footer>
+                {{ $experiences->links() }}
+            </x-slot:footer>
+        @endif
+    </x-admin.card>
 </x-app-layout>

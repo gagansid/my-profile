@@ -3,14 +3,16 @@
         <h2 class="admin-heading" style="margin-bottom: 0;">Posts</h2>
     </x-slot>
 
-    <div class="admin-card">
-        <div class="admin-toolbar mb-2">
-            <p class="admin-hint">Artikel blog yang tampil di halaman publik.</p>
-            <a href="{{ route('admin.posts.create') }}" class="button button__small">Tambah</a>
-        </div>
+    <x-admin.card>
+        <x-slot:header>
+            <div class="admin-toolbar">
+                <p class="admin-hint">Artikel blog yang tampil di halaman publik.</p>
+                <a href="{{ route('admin.posts.create') }}" class="button button__small">Tambah</a>
+            </div>
+        </x-slot:header>
 
         @if (session('status'))
-            <p class="admin-alert admin-alert--success mb-2">Tersimpan.</p>
+            <p class="admin-alert admin-alert--success">Tersimpan.</p>
         @endif
 
         @if ($posts->isEmpty())
@@ -51,7 +53,12 @@
                     </tbody>
                 </table>
             </div>
-            {{ $posts->links() }}
         @endif
-    </div>
+
+        @if ($posts->isNotEmpty())
+            <x-slot:footer>
+                {{ $posts->links() }}
+            </x-slot:footer>
+        @endif
+    </x-admin.card>
 </x-app-layout>

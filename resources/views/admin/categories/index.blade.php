@@ -3,14 +3,16 @@
         <h2 class="admin-heading" style="margin-bottom: 0;">Categories</h2>
     </x-slot>
 
-    <div class="admin-card">
-        <div class="admin-toolbar mb-2">
-            <p class="admin-hint">Kategori untuk Project & Post.</p>
-            <a href="{{ route('admin.categories.create') }}" class="button button__small">Tambah</a>
-        </div>
+    <x-admin.card>
+        <x-slot:header>
+            <div class="admin-toolbar">
+                <p class="admin-hint">Kategori untuk Project & Post.</p>
+                <a href="{{ route('admin.categories.create') }}" class="button button__small">Tambah</a>
+            </div>
+        </x-slot:header>
 
         @if (session('status'))
-            <p class="admin-alert admin-alert--success mb-2">Tersimpan.</p>
+            <p class="admin-alert admin-alert--success">Tersimpan.</p>
         @endif
 
         @if ($categories->isEmpty())
@@ -49,7 +51,12 @@
                     </tbody>
                 </table>
             </div>
-            {{ $categories->links() }}
         @endif
-    </div>
+
+        @if ($categories->isNotEmpty())
+            <x-slot:footer>
+                {{ $categories->links() }}
+            </x-slot:footer>
+        @endif
+    </x-admin.card>
 </x-app-layout>

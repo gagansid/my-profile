@@ -35,7 +35,7 @@
 </div>
 
 <div class="profile__buttons">
-    @if ($profile?->cv_path)
+    @if ($profile?->cv_path && config('features.show_cv_download'))
         <a download href="{{ asset('storage/'.$profile->cv_path) }}" class="button">
             {{ __('profile.download_cv') }} <i class="ri-download-line"></i>
         </a>

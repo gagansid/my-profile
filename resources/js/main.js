@@ -1,3 +1,5 @@
+import ScrollReveal from 'scrollreveal'
+
 /*=============== DARK LIGHT THEME ===============*/
 // themeButton only exists on the public site layout, not the admin layout
 const themeButton = document.getElementById('theme-button')
@@ -52,15 +54,68 @@ if (document.querySelector('.profile')) {
 }
 
 /*=============== IMAGE SKELETON LOADING ===============*/
-document.querySelectorAll('.skeleton-wrapper img').forEach((img) => {
-    const wrapper = img.closest('.skeleton-wrapper')
+const revealSkeletonImages = (root = document) => {
+    root.querySelectorAll('.skeleton-wrapper img').forEach((img) => {
+        const wrapper = img.closest('.skeleton-wrapper')
 
-    const reveal = () => wrapper.classList.remove('is-loading')
+        const reveal = () => wrapper.classList.remove('is-loading')
 
-    if (img.complete && img.naturalWidth > 0) {
-        reveal()
-    } else {
-        img.addEventListener('load', reveal)
-        img.addEventListener('error', reveal)
+        if (img.complete && img.naturalWidth > 0) {
+            reveal()
+        } else {
+            img.addEventListener('load', reveal)
+            img.addEventListener('error', reveal)
+        }
+    })
+}
+
+revealSkeletonImages()
+
+/*=============== AJAX FILTER / PAGINATION (no full page reload) ===============*/
+document.querySelectorAll('[data-ajax-region]').forEach((region) => {
+    const regionName = region.dataset.ajaxRegion
+
+    const loadRegion = async (url, pushState = true) => {
+        region.classList.add('is-ajax-loading')
+
+        try {
+            const response = await fetch(url, { headers: { 'X-Requested-With': 'XMLHttpRequest' } })
+            if (!response.ok) throw new Error('Request failed')
+
+            const html = await response.text()
+            const next = new DOMParser().parseFromString(html, 'text/html')
+                .querySelector(`[data-ajax-region="${regionName}"]`)
+
+            if (!next) {
+                window.location.href = url
+                return
+            }
+
+            region.innerHTML = next.innerHTML
+            document.title = new DOMParser().parseFromString(html, 'text/html').title
+            revealSkeletonImages(region)
+
+            if (pushState) {
+                history.pushState({ ajaxRegion: regionName }, '', url)
+            }
+
+            region.scrollIntoView({ behavior: 'smooth', block: 'start' })
+        } catch (error) {
+            window.location.href = url
+        } finally {
+            region.classList.remove('is-ajax-loading')
+        }
     }
+
+    region.addEventListener('click', (event) => {
+        const link = event.target.closest('a')
+
+        if (!link || !link.getAttribute('href') || link.target === '_blank' || link.hasAttribute('download')) return
+        if (event.metaKey || event.ctrlKey || event.shiftKey) return
+
+        event.preventDefault()
+        loadRegion(link.href)
+    })
+
+    window.addEventListener('popstate', () => loadRegion(window.location.href, false))
 })

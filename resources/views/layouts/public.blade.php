@@ -19,10 +19,12 @@
     <header class="profile container">
         <i class="ri-moon-line change-theme" id="theme-button"></i>
 
-        <a href="{{ route('locale.switch', app()->getLocale() === 'id' ? 'en' : 'id') }}"
-            class="lang-button" id="lang-button" rel="nofollow">
-            {{ app()->getLocale() === 'id' ? 'EN' : 'ID' }}
-        </a>
+        <div class="lang-switch" id="lang-switch">
+            <a href="{{ route('locale.switch', 'id') }}" rel="nofollow"
+                class="lang-switch__option {{ app()->getLocale() === 'id' ? 'is-active' : '' }}">ID</a>
+            <a href="{{ route('locale.switch', 'en') }}" rel="nofollow"
+                class="lang-switch__option {{ app()->getLocale() === 'en' ? 'is-active' : '' }}">EN</a>
+        </div>
 
         <div class="profile__container grid">
             @php

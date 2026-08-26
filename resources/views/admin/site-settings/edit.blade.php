@@ -3,23 +3,19 @@
         <h2 class="admin-heading" style="margin-bottom: 0;">Site Settings</h2>
     </x-slot>
 
-    <div class="admin-card">
+    <x-admin.card :form-action="route('admin.site-settings.update')" form-method="PUT">
         @if (session('status') === 'site-settings-updated')
-            <p class="admin-alert admin-alert--success mb-2">Tersimpan.</p>
+            <p class="admin-alert admin-alert--success">Tersimpan.</p>
         @endif
 
-        <form method="POST" action="{{ route('admin.site-settings.update') }}" class="admin-form">
-            @csrf
-            @method('PUT')
-
-            <label class="admin-checkbox">
+        <label class="admin-checkbox">
                 <input type="checkbox" name="is_site_public" value="1" @checked(old('is_site_public', $setting->is_site_public))>
                 Situs publik aktif (matikan untuk tampilkan halaman maintenance)
             </label>
 
             <div>
                 <x-input-label for="maintenance_message" value="Pesan Maintenance (opsional)" />
-                <textarea id="maintenance_message" name="maintenance_message" rows="3" class="form-input mt-1 block w-full">{{ old('maintenance_message', $setting->maintenance_message) }}</textarea>
+                <textarea id="maintenance_message" name="maintenance_message" rows="3" class="form-input">{{ old('maintenance_message', $setting->maintenance_message) }}</textarea>
                 <x-input-error class="mt-2" :messages="$errors->get('maintenance_message')" />
             </div>
 
@@ -42,9 +38,8 @@
                 </label>
             </div>
 
-            <div class="admin-form__actions">
-                <x-primary-button>Simpan</x-primary-button>
-            </div>
-        </form>
-    </div>
+        <x-slot:footer>
+            <x-primary-button>Simpan</x-primary-button>
+        </x-slot:footer>
+    </x-admin.card>
 </x-app-layout>

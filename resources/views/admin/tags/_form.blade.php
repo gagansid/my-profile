@@ -1,6 +1,6 @@
 <div>
     <x-input-label for="name" value="Nama" />
-    <x-text-input id="name" name="name" type="text" class="mt-1 block w-full" :value="old('name', $tag->name ?? '')" required />
+    <x-text-input id="name" name="name" type="text" :value="old('name', $tag->name ?? '')" required />
     <x-input-error class="mt-2" :messages="$errors->get('name')" />
 </div>
 

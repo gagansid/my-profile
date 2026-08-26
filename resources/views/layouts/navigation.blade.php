@@ -1,6 +1,6 @@
 <nav class="admin-topbar">
     <div class="admin-topbar__links">
-        <a href="{{ route('dashboard') }}" class="admin-topbar__brand">{{ config('app.name') }}</a>
+        <a href="{{ route('dashboard') }}" class="admin-topbar__brand">Admin Panel</a>
         <a href="{{ route('dashboard') }}" class="admin-topbar__link {{ request()->routeIs('dashboard') ? 'is-active' : '' }}">
             Dashboard
         </a>

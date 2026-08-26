@@ -3,14 +3,16 @@
         <h2 class="admin-heading" style="margin-bottom: 0;">Technologies</h2>
     </x-slot>
 
-    <div class="admin-card">
-        <div class="admin-toolbar mb-2">
-            <p class="admin-hint">Tech stack yang bisa dipilih di form Project.</p>
-            <a href="{{ route('admin.technologies.create') }}" class="button button__small">Tambah</a>
-        </div>
+    <x-admin.card>
+        <x-slot:header>
+            <div class="admin-toolbar">
+                <p class="admin-hint">Tech stack yang bisa dipilih di form Project.</p>
+                <a href="{{ route('admin.technologies.create') }}" class="button button__small">Tambah</a>
+            </div>
+        </x-slot:header>
 
         @if (session('status'))
-            <p class="admin-alert admin-alert--success mb-2">Tersimpan.</p>
+            <p class="admin-alert admin-alert--success">Tersimpan.</p>
         @endif
 
         @if ($technologies->isEmpty())
@@ -49,7 +51,12 @@
                     </tbody>
                 </table>
             </div>
-            {{ $technologies->links() }}
         @endif
-    </div>
+
+        @if ($technologies->isNotEmpty())
+            <x-slot:footer>
+                {{ $technologies->links() }}
+            </x-slot:footer>
+        @endif
+    </x-admin.card>
 </x-app-layout>

@@ -3,11 +3,9 @@
         <h2 class="admin-heading" style="margin-bottom: 0;">Messages</h2>
     </x-slot>
 
-    <div class="admin-card">
-        <p class="admin-hint mb-2">Pesan yang masuk dari form contact publik.</p>
-
+    <x-admin.card description="Pesan yang masuk dari form contact publik.">
         @if (session('status') === 'message-deleted')
-            <p class="admin-alert admin-alert--success mb-2">Pesan dihapus.</p>
+            <p class="admin-alert admin-alert--success">Pesan dihapus.</p>
         @endif
 
         @if ($messages->isEmpty())
@@ -48,7 +46,12 @@
                     </tbody>
                 </table>
             </div>
-            {{ $messages->links() }}
         @endif
-    </div>
+
+        @if ($messages->isNotEmpty())
+            <x-slot:footer>
+                {{ $messages->links() }}
+            </x-slot:footer>
+        @endif
+    </x-admin.card>
 </x-app-layout>

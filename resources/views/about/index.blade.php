@@ -26,14 +26,14 @@
                         </span>
                     </h3>
                     <h3 class="works__name">{{ $experience->position }}</h3>
-                    <p class="works__description">
+                    <div class="works__description">
                         <ul style="list-style-type: circle; text-align: justify;">
                             @foreach (explode("\n", (string) $experience->description) as $line)
                                 @continue(trim($line) === '')
                                 <li>{{ $line }}</li>
                             @endforeach
                         </ul>
-                    </p>
+                    </div>
                 </div>
             @endforeach
         </div>
