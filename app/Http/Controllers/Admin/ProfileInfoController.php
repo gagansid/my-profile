@@ -4,11 +4,16 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\ProfileInfo;
+use App\Services\ImageUploadService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 class ProfileInfoController extends Controller
 {
+    public function __construct(private ImageUploadService $imageUploadService)
+    {
+    }
+
     public function edit()
     {
         $profile = ProfileInfo::query()->firstOrCreate(['id' => 1]);
@@ -27,15 +32,16 @@ class ProfileInfoController extends Controller
             'years_experience' => ['required', 'integer', 'min:0'],
             'completed_projects' => ['required', 'integer', 'min:0'],
             'satisfied_customers' => ['required', 'integer', 'min:0'],
-            'avatar' => ['nullable', 'image', 'max:2048'],
+            'avatar' => ['nullable', 'file', 'mimes:jpeg,jpg,png,webp', 'max:'.config('media.max_upload_size')],
             'cv' => ['nullable', 'mimes:pdf', 'max:5120'],
         ]);
 
         if ($request->hasFile('avatar')) {
-            if ($profile->avatar_path) {
-                Storage::disk('public')->delete($profile->avatar_path);
-            }
-            $data['avatar_path'] = $request->file('avatar')->store('avatars', 'public');
+            $data['avatar_path'] = $this->imageUploadService->store(
+                $request->file('avatar'),
+                'avatars',
+                $profile->avatar_path,
+            );
         }
 
         if ($request->hasFile('cv')) {

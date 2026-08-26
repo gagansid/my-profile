@@ -6,12 +6,17 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Post;
 use App\Models\Tag;
+use App\Services\ImageUploadService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class PostController extends Controller
 {
+    public function __construct(private ImageUploadService $imageUploadService)
+    {
+    }
+
     public function index()
     {
         $posts = Post::query()->with('category')->latest('id')->paginate(15);
@@ -32,7 +37,7 @@ class PostController extends Controller
         $data['slug'] = $this->uniqueSlug($data['title']);
 
         if ($request->hasFile('thumbnail')) {
-            $data['thumbnail_path'] = $request->file('thumbnail')->store('posts', 'public');
+            $data['thumbnail_path'] = $this->imageUploadService->store($request->file('thumbnail'), 'posts');
         }
 
         if ($data['status'] === 'published' && empty($data['published_at'])) {
@@ -64,10 +69,11 @@ class PostController extends Controller
         }
 
         if ($request->hasFile('thumbnail')) {
-            if ($post->thumbnail_path) {
-                Storage::disk('public')->delete($post->thumbnail_path);
-            }
-            $data['thumbnail_path'] = $request->file('thumbnail')->store('posts', 'public');
+            $data['thumbnail_path'] = $this->imageUploadService->store(
+                $request->file('thumbnail'),
+                'posts',
+                $post->thumbnail_path,
+            );
         }
 
         if ($data['status'] === 'published' && empty($data['published_at'])) {
@@ -97,7 +103,7 @@ class PostController extends Controller
             'category_id' => ['required', 'exists:categories,id'],
             'excerpt' => ['required', 'string', 'max:500'],
             'content' => ['required', 'string'],
-            'thumbnail' => ['nullable', 'image', 'max:2048'],
+            'thumbnail' => ['nullable', 'file', 'mimes:jpeg,jpg,png,webp', 'max:'.config('media.max_upload_size')],
             'status' => ['required', 'in:draft,published'],
             'published_at' => ['nullable', 'date'],
             'tags' => ['nullable', 'string'],

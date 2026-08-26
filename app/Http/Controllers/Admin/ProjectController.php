@@ -7,12 +7,17 @@ use App\Models\Category;
 use App\Models\Project;
 use App\Models\Tag;
 use App\Models\Technology;
+use App\Services\ImageUploadService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class ProjectController extends Controller
 {
+    public function __construct(private ImageUploadService $imageUploadService)
+    {
+    }
+
     public function index()
     {
         $projects = Project::query()->with('category')->orderBy('order')->paginate(15);
@@ -34,7 +39,7 @@ class ProjectController extends Controller
         $data['slug'] = $this->uniqueSlug($data['title']);
 
         if ($request->hasFile('thumbnail')) {
-            $data['thumbnail_path'] = $request->file('thumbnail')->store('projects', 'public');
+            $data['thumbnail_path'] = $this->imageUploadService->store($request->file('thumbnail'), 'projects');
         }
 
         $project = Project::create($data);
@@ -64,10 +69,11 @@ class ProjectController extends Controller
         }
 
         if ($request->hasFile('thumbnail')) {
-            if ($project->thumbnail_path) {
-                Storage::disk('public')->delete($project->thumbnail_path);
-            }
-            $data['thumbnail_path'] = $request->file('thumbnail')->store('projects', 'public');
+            $data['thumbnail_path'] = $this->imageUploadService->store(
+                $request->file('thumbnail'),
+                'projects',
+                $project->thumbnail_path,
+            );
         }
 
         $project->update($data);
@@ -95,7 +101,7 @@ class ProjectController extends Controller
             'description' => ['required', 'string'],
             'demo_url' => ['nullable', 'url'],
             'repo_url' => ['nullable', 'url'],
-            'thumbnail' => ['nullable', 'image', 'max:2048'],
+            'thumbnail' => ['nullable', 'file', 'mimes:jpeg,jpg,png,webp', 'max:'.config('media.max_upload_size')],
             'order' => ['required', 'integer', 'min:0'],
             'status' => ['required', 'in:draft,published'],
             'technologies' => ['nullable', 'array'],
