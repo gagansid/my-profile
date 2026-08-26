@@ -1,5 +1,5 @@
 /*=============== BUTTONS ===============*/
-.button{
+.button {
     display: inline-flex;
     align-items: center;
     column-gap: .5rem;
@@ -10,24 +10,39 @@
     transition: .3s;
     box-shadow: 0 8px 24px hsla(var(--hue), var(--sat), var(--lig), .25);
 
-    & i{
+    & i {
         font-size: 1.25rem;
     }
 
-    &:hover{
+    &:hover {
         background-color: var(--first-color-alt);
     }
 
-    &__small{
+    &__small {
         padding: .75rem;
         box-shadow: none;
     }
-    &__gray{
+
+    &__gray {
         background-color: var(--text-color-lighten);
         color: var(--title-color);
 
-        &:hover{
+        &:hover {
             background-color: var(--text-color-light);
         }
+    }
+
+    &__danger {
+        background-color: hsl(0, 70%, 55%);
+
+        &:hover {
+            background-color: hsl(0, 70%, 45%);
+        }
+    }
+
+    &:disabled {
+        opacity: .6;
+        cursor: not-allowed;
+        pointer-events: none;
     }
 }

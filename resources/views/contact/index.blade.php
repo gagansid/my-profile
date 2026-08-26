@@ -28,7 +28,7 @@
             <div class="mb-1">
                 <label for="fullname" class="form-label">{{ __('contact.fullname') }}</label>
                 <input type="text" name="fullname" id="fullname" placeholder="{{ __('contact.fullname_placeholder') }}"
-                    class="contact-form-input" autocomplete="off" value="{{ old('fullname') }}" required />
+                    class="form-input" autocomplete="off" value="{{ old('fullname') }}" required />
                 @error('fullname')
                     <small style="color: crimson;">{{ $message }}</small>
                 @enderror
@@ -37,7 +37,7 @@
             <div class="mb-1">
                 <label for="email" class="form-label">{{ __('contact.email') }}</label>
                 <input type="email" name="email" id="email" placeholder="{{ __('contact.email_placeholder') }}"
-                    class="contact-form-input" autocomplete="off" value="{{ old('email') }}" required />
+                    class="form-input" autocomplete="off" value="{{ old('email') }}" required />
                 @error('email')
                     <small style="color: crimson;">{{ $message }}</small>
                 @enderror
@@ -45,7 +45,7 @@
 
             <div>
                 <label for="message" class="form-label">{{ __('contact.message') }}</label>
-                <textarea rows="5" name="message" id="message" class="contact-form-input" required>{{ old('message') }}</textarea>
+                <textarea rows="5" name="message" id="message" class="form-input" required>{{ old('message') }}</textarea>
                 @error('message')
                     <small style="color: crimson;">{{ $message }}</small>
                 @enderror

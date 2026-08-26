@@ -4,31 +4,28 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
+        <meta name="robots" content="noindex">
 
         <title>{{ config('app.name', 'Laravel') }}</title>
 
-        <!-- Fonts -->
-        <link rel="preconnect" href="https://fonts.bunny.net">
-        <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+        <link rel="shortcut icon" href="{{ asset('favicon.png') }}" type="image/x-icon">
 
         <!-- Scripts -->
-        @vite(['resources/scss/styles.scss', 'resources/js/main.js'])
+        @vite(['resources/scss/styles.scss', 'resources/js/main.js', 'resources/js/admin.js'])
     </head>
-    <body class="font-sans antialiased">
-        <div class="min-h-screen bg-gray-100">
+    <body>
+        <div class="admin">
             @include('layouts.navigation')
 
             <!-- Page Heading -->
             @isset($header)
-                <header class="bg-white shadow">
-                    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                        {{ $header }}
-                    </div>
-                </header>
+                <div class="admin-main" style="padding-bottom: 0;">
+                    {{ $header }}
+                </div>
             @endisset
 
             <!-- Page Content -->
-            <main>
+            <main class="admin-main">
                 {{ $slot }}
             </main>
         </div>
