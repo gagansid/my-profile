@@ -1,0 +1,52 @@
+/*=============== ABOUT / CONTENT BLOCKS ===============*/
+.abouts {
+    &__area {
+        text-align: justify;
+    }
+
+    &__summary {
+        line-height: 1.6;
+    }
+}
+
+.works {
+    &__area {
+        hr {
+            border: none;
+            border-top: 1px solid var(--text-color-lighten);
+            margin: .75rem 0 1rem;
+        }
+    }
+
+    &__title {
+        font-size: var(--h3-font-size);
+        margin-bottom: .5rem;
+    }
+
+    &__company {
+        font-size: var(--normal-font-size);
+        font-weight: 600;
+
+        span {
+            font-weight: 400;
+            font-size: var(--small-font-size);
+            color: var(--text-color);
+        }
+    }
+
+    &__name {
+        font-size: var(--small-font-size);
+        font-weight: 500;
+        color: var(--first-color);
+        margin-bottom: .5rem;
+    }
+
+    &__description {
+        font-size: var(--small-font-size);
+        line-height: 1.6;
+
+        ul {
+            padding-left: 1.25rem;
+        }
+    }
+}

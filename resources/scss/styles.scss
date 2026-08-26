@@ -1,10 +1,15 @@
 @import 'config/variables';
 @import 'base/base';
+@import 'base/utilities';
 @import 'theme/theme';
 @import 'layout/layout';
 @import 'components/profile';
 @import 'components/button';
 @import 'components/filters';
+@import 'components/content';
+@import 'components/contact';
 @import 'components/footer';
 @import 'components/scroll';
+@import 'components/skeleton';
+@import 'components/maintenance';
 @import 'components/breakpoints';
