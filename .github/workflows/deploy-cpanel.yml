@@ -11,6 +11,8 @@ concurrency:
   group: cpanel-deploy-${{ github.ref }}
   cancel-in-progress: true
 
+permissions: {}
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
