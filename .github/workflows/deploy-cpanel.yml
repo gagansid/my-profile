@@ -1,0 +1,45 @@
+name: Deploy to cPanel
+
+on:
+  push:
+    branches:
+      - main
+      - production
+  workflow_dispatch:
+
+concurrency:
+  group: cpanel-deploy-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions: {}
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      DEPLOY_BRANCH: ${{ vars.CPANEL_DEPLOY_BRANCH || 'production' }}
+      DEPLOY_HOOK_URL: ${{ secrets.CPANEL_DEPLOY_HOOK_URL }}
+    steps:
+      - name: Skip non-deploy branch
+        if: ${{ github.ref_name != env.DEPLOY_BRANCH }}
+        run: |
+          echo "Configured deploy branch is '${DEPLOY_BRANCH}', current ref is '${GITHUB_REF_NAME}'."
+          echo "Skipping cPanel deploy trigger."
+
+      - name: Validate cPanel deployment hook secret
+        if: ${{ github.ref_name == env.DEPLOY_BRANCH }}
+        run: |
+          if [ -z "${DEPLOY_HOOK_URL}" ]; then
+            echo "Missing CPANEL_DEPLOY_HOOK_URL GitHub Actions secret." >&2
+            exit 1
+          fi
+
+      - name: Trigger cPanel deployment
+        if: ${{ github.ref_name == env.DEPLOY_BRANCH }}
+        run: |
+          curl --fail --show-error --silent \
+            --retry 3 \
+            --retry-all-errors \
+            --max-time 30 \
+            -X POST \
+            "${DEPLOY_HOOK_URL}"
